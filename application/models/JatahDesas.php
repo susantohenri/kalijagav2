@@ -98,7 +98,8 @@ class JatahDesas extends MY_Model {
         else $this->StrukDetails->create(array(
           'struk' => $strukUuid,
           'jatahdesadetail' => $detail->uuid,
-          'dijatah' => $jamaah->prosentase / 100 * $detail->nominal / $jamaah->jamaah_sekemampuan
+          'dijatah' => $jamaah->prosentase / 100 * $detail->nominal / $jamaah->jamaah_sekemampuan,
+          'dibulatkan' => (int) (1000 * ceil($jamaah->prosentase / 100 * $detail->nominal / $jamaah->jamaah_sekemampuan / 1000))
         ));
       }
     }
