@@ -21,6 +21,12 @@ class Struks extends MY_Model {
 		        array('data-model' => 'Jamaahs'),
 		        array('data-field' => 'nama')
 			    )),
+        array (
+          'name' => 'total_diterima',
+          'label'=> 'Total diterima',
+          'attributes' => array(
+            array('data-number' => 'true'),
+          )),
     );
     $this->childs = array (
         array (
@@ -41,6 +47,20 @@ class Struks extends MY_Model {
       ->join('jatahdesa', "jatahdesa.uuid = {$this->table}.jatahdesa", 'left')
       ;
     return parent::dt();
+  }
+
+  function save ($data)
+  {
+    unset($data['total_diterima']);
+    return parent::save($data);
+  }
+
+  function findOne ($param)
+  {
+    $found = parent::findOne($param);
+    $total = $this->db->query("SELECT FORMAT(SUM(diterima), 0) diterima FROM strukdetail WHERE struk = '{$found['uuid']}'")->row_array();
+    $found['total_diterima'] = $total['diterima'];
+    return $found;
   }
 
 }

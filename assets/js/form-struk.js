@@ -100,13 +100,25 @@ function formInit (scope) {
     $(this).val(currency(getNumber($(this))))
   })
   complete (scope)
+  calculateTotal (scope)
 }
 
 function complete (scope)
 {
   if (scope.find('.btn-complete').length > 0) scope.find('.btn-complete').click(function () {
     var dibulatkan = scope.find('[name*="dibulatkan"]').val()
-    scope.find('[name*="diterima"]').val(dibulatkan)
+    scope.find('[name*="diterima"]').val(dibulatkan).trigger('keyup')
+  })
+}
+
+function calculateTotal (scope)
+{
+  scope.find('[data-number]').not('[name*="total"]').keyup(function () {
+    var total = 0
+    $('[name^="StrukDetail_diterima"]').each(function () {
+      total += getNumber($(this))
+    })
+    $('[name*="total"]').val(currency(total))
   })
 }
 
