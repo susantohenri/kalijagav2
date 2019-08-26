@@ -7,8 +7,8 @@ class Struks extends MY_Model {
     $this->table = 'struk';
     $this->thead = array(
       (object) array('mData' => 'orders', 'sTitle' => 'No', 'visible' => false),
-      (object) array('mData' => 'jatahDesa', 'sTitle' => 'JatahDesa'),
-
+      (object) array('mData' => 'nama', 'sTitle' => 'Jamaah', 'name' => 'jamaah.nama'),
+      (object) array('mData' => 'bulan', 'sTitle' => 'Bulan', 'searchable' => false),
     );
     $this->form = array (
         array (
@@ -35,7 +35,11 @@ class Struks extends MY_Model {
     $this->datatables
       ->select("{$this->table}.uuid")
       ->select("{$this->table}.orders")
-      ->select('struk.jatahDesa');
+      ->select('jamaah.nama')
+      ->select("DATE_FORMAT(tanggal, '%b %Y') bulan", false)
+      ->join('jamaah', "jamaah.uuid = {$this->table}.jamaah", 'left')
+      ->join('jatahdesa', "jatahdesa.uuid = {$this->table}.jatahdesa", 'left')
+      ;
     return parent::dt();
   }
 
