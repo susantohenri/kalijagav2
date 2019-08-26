@@ -56,7 +56,13 @@ class StrukDetails extends MY_Model {
 
   function findOne ($param)
   {
-    $found = parent::findOne($param);
+    if (!is_array($param)) $param = array('uuid' => $param);
+    $found = $this->db
+      ->select("{$this->table}.*")
+      ->select("FORMAT({$this->table}.dijatah, 0) dijatah", false)
+      ->select("FORMAT({$this->table}.dibulatkan, 0) dibulatkan", false)
+      ->select("FORMAT({$this->table}.diterima, 0) diterima", false)
+      ->get_where($this->table, $param)->row_array();
     if ($found)
     {
       $infaq = $this->db->query("
