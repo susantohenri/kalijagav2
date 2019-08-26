@@ -99,6 +99,15 @@ function formInit (scope) {
   scope.find('[data-number="true"]').keyup(function () {
     $(this).val(currency(getNumber($(this))))
   })
+  complete (scope)
+}
+
+function complete (scope)
+{
+  if (scope.find('.btn-complete').length > 0) scope.find('.btn-complete').click(function () {
+    var dibulatkan = scope.find('[name*="dibulatkan"]').val()
+    scope.find('[name*="diterima"]').val(dibulatkan)
+  })
 }
 
 function getNumber (element) {
