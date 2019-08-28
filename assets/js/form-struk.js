@@ -1,5 +1,11 @@
 window.onload = function () {
 
+  const completeAll = `<a class="btn btn-success btn-complete-all"><i class="fa fa-check"></i> &nbsp; Complete All</a>`
+  $('.btn-save').parent().prepend(completeAll)
+  $('.btn-complete-all').click(function () {
+    $('.btn-complete').click()
+  })
+
   formInit($(`[data-controller="${current_controller}"]`))
   $('.main-form').submit(function () {
     $('[data-number]').each (function () {
