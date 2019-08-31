@@ -17,7 +17,13 @@ class JatahDesas extends MY_Model {
 		      'width' => 2,
 		      'attributes' => array(
 		        array('data-date' => 'datepicker')
-			    )),
+          )),
+          array (
+            'name' => 'total',
+            'label'=> 'Total',
+            'attributes' => array(
+              array('data-number' => 'true'),
+            )),
     );
     $this->childs = array (
         array (
@@ -26,6 +32,20 @@ class JatahDesas extends MY_Model {
 				      'model' => 'JatahDesaDetails'
 					  ),
     );
+  }
+
+  function save ($data)
+  {
+    unset($data['total']);
+    return parent::save($data);
+  }
+
+  function findOne ($param)
+  {
+    $found = parent::findOne($param);
+    $total = $this->db->query("SELECT FORMAT(SUM(nominal), 0) nominal FROM jatahdesadetail WHERE jatahdesa = '{$found['uuid']}'")->row_array();
+    $found['total'] = $total['nominal'];
+    return $found;
   }
 
   function dt () {
