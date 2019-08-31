@@ -111,7 +111,8 @@ class JatahDesas extends MY_Model {
           if ('Kepala Keluarga' === $jamaah->posisi) $this->StrukDetails->create(array(
             'struk' => $strukUuid,
             'jatahdesadetail' => $detail->uuid,
-            'dijatah' => $detail->nominal / $jamaah->jumlah_kk
+            'dijatah' => $detail->nominal / $jamaah->jumlah_kk,
+            'dibulatkan' => (int) (1000 * ceil($detail->nominal / $jamaah->jumlah_kk / 1000))
           ));
           else continue;
         }

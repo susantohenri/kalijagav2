@@ -27,6 +27,12 @@ class Struks extends MY_Model {
           'attributes' => array(
             array('data-number' => 'true'),
           )),
+          array (
+            'name' => 'total_dibulatkan',
+            'label'=> 'Total dibulatkan',
+            'attributes' => array(
+              array('data-number' => 'true'),
+            )),
     );
     $this->childs = array (
         array (
@@ -58,8 +64,13 @@ class Struks extends MY_Model {
   function findOne ($param)
   {
     $found = parent::findOne($param);
-    $total = $this->db->query("SELECT FORMAT(SUM(diterima), 0) diterima FROM strukdetail WHERE struk = '{$found['uuid']}'")->row_array();
+    $total = $this->db->query("
+      SELECT FORMAT(SUM(diterima), 0) diterima,
+      FORMAT(SUM(dibulatkan), 0) dibulatkan
+      FROM strukdetail WHERE struk = '{$found['uuid']}'
+    ")->row_array();
     $found['total_diterima'] = $total['diterima'];
+    $found['total_dibulatkan'] = $total['dibulatkan'];
     return $found;
   }
 
