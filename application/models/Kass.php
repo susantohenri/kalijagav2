@@ -6,9 +6,11 @@ class Kass extends MY_Model {
     parent::__construct();
     $this->table = 'kas';
     $this->thead = array(
-      (object) array('mData' => 'orders', 'sTitle' => 'No', 'visible' => false),
       (object) array('mData' => 'tanggal', 'sTitle' => 'Tanggal'),
-
+      (object) array('mData' => 'orders', 'sTitle' => 'No', 'visible' => false),
+      (object) array('mData' => 'deskripsi', 'sTitle' => 'Deskripsi'),
+      (object) array('mData' => 'debet', 'sTitle' => 'Debet', 'searchable' => false),
+      (object) array('mData' => 'kredit', 'sTitle' => 'Kredit', 'searchable' => false),
     );
     $this->form = array (
         array (
@@ -46,6 +48,9 @@ class Kass extends MY_Model {
     $this->datatables
       ->select("{$this->table}.uuid")
       ->select("{$this->table}.orders")
+      ->select('kas.deskripsi')
+      ->select('FORMAT(debet, 0) debet', false)
+      ->select('FORMAT(kredit, 0) kredit', false)
       ->select('kas.tanggal');
     return parent::dt();
   }
