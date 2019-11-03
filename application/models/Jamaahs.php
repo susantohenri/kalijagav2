@@ -7,8 +7,9 @@ class Jamaahs extends MY_Model {
     $this->table = 'jamaah';
     $this->thead = array(
       (object) array('mData' => 'orders', 'sTitle' => 'No', 'visible' => false),
-      (object) array('mData' => 'nama', 'sTitle' => 'Nama'),
+      (object) array('mData' => 'nama_jamaah', 'sTitle' => 'Nama'),
       (object) array('mData' => 'posisi', 'sTitle' => 'Posisi'),
+      (object) array('mData' => 'nama', 'sTitle' => 'Level', 'name' => 'level.nama')
     );
     $this->form = array (
         array (
@@ -44,8 +45,10 @@ class Jamaahs extends MY_Model {
     $this->datatables
       ->select("{$this->table}.uuid")
       ->select("{$this->table}.orders")
-      ->select('jamaah.nama')
-      ->select('jamaah.posisi');
+      ->select('jamaah.nama AS nama_jamaah', false)
+      ->select('jamaah.posisi')
+      ->select('kemampuan.nama')
+      ->join('kemampuan', 'kemampuan.uuid = jamaah.kemampuan');
     return parent::dt();
   }
 

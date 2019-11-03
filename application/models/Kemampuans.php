@@ -8,7 +8,7 @@ class Kemampuans extends MY_Model {
     $this->thead = array(
       (object) array('mData' => 'orders', 'sTitle' => 'No', 'visible' => false),
       (object) array('mData' => 'nama', 'sTitle' => 'Nama'),
-
+      (object) array('mData' => 'prosentase', 'sTitle' => 'Prosentase'),
     );
     $this->form = array (
         array (
@@ -32,7 +32,8 @@ class Kemampuans extends MY_Model {
     $this->datatables
       ->select("{$this->table}.uuid")
       ->select("{$this->table}.orders")
-      ->select('kemampuan.nama');
+      ->select('kemampuan.nama')
+      ->select("CONCAT(prosentase, ' %') prosentase", false);
     return parent::dt();
   }
 
